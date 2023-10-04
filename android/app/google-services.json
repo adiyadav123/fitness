@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "656194875447",
+    "project_id": "fitnessx-a352c",
+    "storage_bucket": "fitnessx-a352c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656194875447:android:e765e1d0847061c0f14fb2",
+        "android_client_info": {
+          "package_name": "com.example.fit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgw5053fW6WKnKRnam-gVh_f2ZJBer-iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
