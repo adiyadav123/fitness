@@ -5,14 +5,14 @@ import 'package:fit/view/on_boarding/started.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomePageView extends StatefulWidget {
-  const HomePageView({Key? key}) : super(key: key);
+class OfflineHomePageView extends StatefulWidget {
+  const OfflineHomePageView({Key? key}) : super(key: key);
 
   @override
-  State<HomePageView> createState() => _HomePageViewState();
+  State<OfflineHomePageView> createState() => _OfflineHomePageViewState();
 }
 
-class _HomePageViewState extends State<HomePageView> {
+class _OfflineHomePageViewState extends State<OfflineHomePageView> {
 
    String message = "";
 

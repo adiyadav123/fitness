@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/common/color_extension.dart';
 import 'package:fit/common_widget/round_button.dart';
-import 'package:fit/view/home/home.dart';
+import 'package:fit/view/home/offlineHome.dart';
+import 'package:fit/view/home/online_home.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -230,7 +231,7 @@ class _RegisterViewState extends State<RegisterView> {
         db.collection("users").add(users).then((DocumentReference doc) =>
             print('DocumentSnapshot added with ID: ${doc.id}'));
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePageView()));
+            context, MaterialPageRoute(builder: (context) => OnlineHomePageView()));
       } on FirebaseException catch (e) {
         Fluttertoast.showToast(msg: "Error: ${e.message}");
       }

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../common_widget/round_button.dart';
-import '../home/home.dart';
+import '../home/offlineHome.dart';
 
 class LoginViewPage extends StatefulWidget {
   const LoginViewPage({Key? key}) : super(key: key);

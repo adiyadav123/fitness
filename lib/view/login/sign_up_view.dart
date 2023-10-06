@@ -1,6 +1,6 @@
 import 'package:fit/common/color_extension.dart';
 import 'package:fit/common_widget/round_button.dart';
-import 'package:fit/view/home/home.dart';
+import 'package:fit/view/home/offlineHome.dart';
 import 'package:fit/view/login/register.dart';
 import 'package:fit/view/login/sign_in.dart';
 import 'package:flutter/material.dart';
@@ -285,7 +285,7 @@ class _SignUpViewState extends State<SignUpView> {
                     )),
                 TextButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageView()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => OfflineHomePageView()));
                   },
                   child: Text("Skip"),
                 ),
