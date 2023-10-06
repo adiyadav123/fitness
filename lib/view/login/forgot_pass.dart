@@ -100,24 +100,26 @@ class _ForgotPassViewState extends State<ForgotPassView> {
   }
 
   _forgotEmail() async {
-    try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: _emailController.text);
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: _emailController.text);
 
-      setState(() {
-        _forgoting = false;
-      });
+        setState(() {
+          _forgoting = false;
+        });
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginViewPage(),
-          ));
-    } on FirebaseException catch (e) {
-      setState(() {
-        _forgoting = false;
-      });
-      Fluttertoast.showToast(msg: "Error: ${e.message}");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginViewPage(),
+            ));
+      } on FirebaseException catch (e) {
+        setState(() {
+          _forgoting = false;
+        });
+        Fluttertoast.showToast(msg: "Error: ${e.message}");
+      }
     }
   }
 }

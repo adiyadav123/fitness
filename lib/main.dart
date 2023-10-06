@@ -1,11 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fit/firebase_options.dart';
-import 'package:fit/view/home/offlineHome.dart';
+import 'package:fit/view/home/online_home.dart';
 import 'package:fit/view/on_boarding/started.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
 void main() async {
+  await Hive.initFlutter();
+  var box = await Hive.openBox("users");
+  box.deleteFromDisk();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -28,7 +33,7 @@ class MyApp extends StatelessWidget {
             title: "FitnessX",
             debugShowCheckedModeBanner: false,
             theme: ThemeData(primarySwatch: Colors.blue),
-            home: OfflineHomePageView(),
+            home: OnlineHomePageView(),
           );
         } else {
           return MaterialApp(
@@ -37,6 +42,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(primarySwatch: Colors.blue),
             home: StartedView(),
           );
+          // }
         }
       },
     );

@@ -1,6 +1,6 @@
 import 'package:fit/common/color_extension.dart';
 import 'package:fit/common_widget/round_button.dart';
-import 'package:fit/view/home/offlineHome.dart';
+import 'package:fit/view/home/online_home.dart';
 import 'package:fit/view/login/register.dart';
 import 'package:fit/view/login/sign_in.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,7 @@ class _SignUpViewState extends State<SignUpView> {
   GlobalKey<FormState> _formKey = GlobalKey();
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _lastnameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   bool _isSigningUp = false;
@@ -92,6 +93,7 @@ class _SignUpViewState extends State<SignUpView> {
                             color: TColor.white,
                             borderRadius: BorderRadius.circular(20)),
                         child: TextFormField(
+                          controller: _lastnameController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Last name must not be empty!";
@@ -280,15 +282,8 @@ class _SignUpViewState extends State<SignUpView> {
                         SizedBox(
                           height: 20,
                         ),
-
                       ],
                     )),
-                TextButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => OfflineHomePageView()));
-                  },
-                  child: Text("Skip"),
-                ),
               ],
             ),
           ),
@@ -301,6 +296,7 @@ class _SignUpViewState extends State<SignUpView> {
     if (_formKey.currentState!.validate()) {
       setState(() => _isSigningUp = true);
       final auth = FirebaseAuth.instance;
+      final user = auth.currentUser;
 
       try {
         await auth
@@ -308,10 +304,10 @@ class _SignUpViewState extends State<SignUpView> {
                 email: _emailController.text,
                 password: _passwordController.text)
             .then((value) async {
-          await auth.currentUser?.updateDisplayName(_firstNameController.text);
+          await auth.currentUser?.updateDisplayName(
+              "${_firstNameController.text} ${_lastnameController.text}");
           print(auth.currentUser?.displayName);
           setState(() => _isSigningUp = false);
-          // ignore: use_build_context_synchronously
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const RegisterView()));
         });
@@ -334,7 +330,7 @@ class _SignUpViewState extends State<SignUpView> {
   }
 
   _loginred() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LoginViewPage()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const LoginViewPage()));
   }
 }

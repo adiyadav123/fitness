@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/common/color_extension.dart';
 import 'package:fit/common_widget/round_button.dart';
-import 'package:fit/view/home/offlineHome.dart';
 import 'package:fit/view/home/online_home.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

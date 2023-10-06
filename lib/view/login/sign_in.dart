@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/common/color_extension.dart';
+import 'package:fit/view/home/online_home.dart';
 import 'package:fit/view/login/forgot_pass.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../common_widget/round_button.dart';
-import '../home/offlineHome.dart';
 
 class LoginViewPage extends StatefulWidget {
   const LoginViewPage({Key? key}) : super(key: key);
@@ -171,7 +171,7 @@ class _LoginViewPageState extends State<LoginViewPage> {
         setState(() {
           _isSigningIn = false;
         });
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageView()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => OnlineHomePageView()));
       });
     } on FirebaseAuthException catch(e){
       setState(() => _isSigningIn = false);
