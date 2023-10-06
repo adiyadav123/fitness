@@ -86,7 +86,7 @@ class _ForgotPassViewState extends State<ForgotPassView> {
                         color: TColor.white,
                       )
                     : RoundButton(
-                        title: "Login",
+                        title: "Send Email",
                         onPressed: () {
                           _forgotEmail();
                           print("pressed");

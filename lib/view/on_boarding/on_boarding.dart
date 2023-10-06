@@ -83,6 +83,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     strokeWidth: 2 ,
                   ),
                 ),
+
                 Container(
                   width: 60,
                   height: 60,

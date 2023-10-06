@@ -33,38 +33,55 @@ class _HomePageViewState extends State<HomePageView> {
         return;
 
       } else {
-        setState(() {
-          message = "You are logged in. \n Currently we are developing the homepage.";
+        setState(() async {
+          message = "Welcome ${user.displayName}\nYour email-${user.email}\nThis page is currently under development. Come back later :)\nClick the button below to logout.";
           return;
         });
       }
     });
     return Scaffold(
       backgroundColor: TColor.black,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(message, style:
-              TextStyle(
-                color: TColor.white,
-                fontSize: 20,
-                fontFamily: "Poppins"
-              ),),
-            SizedBox(
-              height: 10,
-            ),
-            IconButton(
-              onPressed: (){
-                FirebaseAuth.instance.signOut().then((value) {
-                  print("Logged out!");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => StartedView()));
-                });
-              },
-              icon: Icon(Icons.logout_outlined, color: TColor.white,),
-
-            )
-          ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
+        child: SafeArea(
+          child: Column(
+           children: [
+             Row(
+               mainAxisAlignment: MainAxisAlignment.start,
+               children: [
+                 Column(
+                   mainAxisAlignment: MainAxisAlignment.start,
+                   children: [
+                     Text("Hey there,",
+                       style: TextStyle(
+                           color: TColor.white,
+                           fontFamily: "Poppins",
+                           fontSize: 12
+                       ),),
+                     Text("Welcome back,",
+                       style: TextStyle(
+                           color: TColor.white,
+                           fontFamily: "Poppins",
+                           fontSize: 20
+                       ),),
+                   ],
+                 ),
+                 SizedBox(
+                   width: 100,
+                 ),
+                 Transform.scale(
+                   scale: 1.2,
+                   child: IconButton(
+                     onPressed: (){
+                       print("pressed");
+                     },
+                     icon: Icon(Icons.notification_important, color: TColor.white,),
+                   ),
+                 )
+               ],
+             ),
+           ],
+          ),
         ),
       ),
     );
