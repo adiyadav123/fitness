@@ -18,10 +18,7 @@ class _ExerciseViewState extends State<ExerciseView> {
           child: Center(
             child: Column(
               children: [
-                Text(
-                  "Exercise Page",
-                  style: TextStyle(color: Colors.white),
-                )
+                Row()
               ],
             ),
           ),

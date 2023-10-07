@@ -41,8 +41,6 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                       setState(() {
                         currentTab = HomeView();
                         _isHomeActive = false;
-                        _isExerciseActive = true;
-                        _isProfileActive = true;
                       });
                     } else {
                       setState(() {
@@ -62,10 +60,8 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                   onPressed: () {
                     if (_isExerciseActive == true) {
                       setState(() {
-                        currentTab =  ExerciseView();
+                        currentTab = ExerciseView();
                         _isExerciseActive = false;
-                        _isHomeActive = true;
-                        _isProfileActive = true;
                       });
                     } else {
                       setState(() {
@@ -85,10 +81,8 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                     onPressed: () {
                       if (_isProfileActive == true) {
                         setState(() {
-                          currentTab =  ProfileView();
+                          currentTab = ProfileView();
                           _isProfileActive = false;
-                          _isExerciseActive = true;
-                          _isHomeActive = true;
                         });
                       } else {
                         setState(() {

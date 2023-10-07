@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/common/color_extension.dart';
@@ -7,6 +5,7 @@ import 'package:fit/common_widget/round_button.dart';
 import 'package:fit/view/exercise/exercise_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -16,9 +15,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   String bmii = "Loading...";
-  var bm;// Initial text while loading data
+  var bm = 10.0; // Initial text while loading data
 
   @override
   void initState() {
@@ -30,31 +28,31 @@ class _HomeViewState extends State<HomeView> {
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser?.displayName;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final DocumentSnapshot snapshot = await firestore.collection('users').doc(user).get();
+    final DocumentSnapshot snapshot =
+        await firestore.collection('users').doc(user).get();
 
     if (snapshot.exists) {
       // Data exists, you can access it using snapshot.data()
       setState(() {
         bm = double.parse(snapshot['bmi']);
       });
-      if(bm < 16){
+      if (bm < 16) {
         setState(() {
           bmii = "You are thin.";
         });
-      } else if (bm > 16 && bm < 25){
+      } else if (bm > 16 && bm < 25) {
         setState(() {
           bmii = 'You are healthy.';
         });
-      } else if (bm > 25 && bm < 30){
+      } else if (bm > 25 && bm < 30) {
         setState(() {
           bmii = "You are fat.";
         });
-      } else if (bm > 30){
+      } else if (bm > 30) {
         setState(() {
           bmii = "You are obese.";
         });
       }
-
     } else {
       // Document doesn't exist
       setState(() {
@@ -66,12 +64,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     fetchData();
-    var media = MediaQuery
-        .of(context)
-        .size;
+    var media = MediaQuery.of(context).size;
     var auth = FirebaseAuth.instance;
-
-
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -80,112 +74,114 @@ class _HomeViewState extends State<HomeView> {
           padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 15),
           child: SingleChildScrollView(
             child: SafeArea(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Welcome Back",
-                            style: TextStyle(
-                                color: Colors.white, fontFamily: "Poppins"),
-                          ),
-                          Text(
-                            "${auth.currentUser?.displayName}",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Poppins",
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Image.asset(
-                            "images/notification_active.png",
-                            height: 25,
-                            width: 25,
-                          ),
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Welcome Back",
+                          style: TextStyle(
+                              color: Colors.white, fontFamily: "Poppins"),
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      height: media.width * 0.4,
-                      width: double.maxFinite,
+                        Text(
+                          "${auth.currentUser?.displayName}",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: "Poppins",
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 40,
+                      width: 40,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: TColor.primaryG),
-                        borderRadius:
-                        BorderRadius.circular(media.width * 0.075),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          "images/notification_active.png",
+                          height: 25,
+                          width: 25,
+                        ),
                       ),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            "images/banner_dots.png",
-                            height: media.width * 0.4,
-                            width: double.maxFinite,
-                            fit: BoxFit.fitWidth,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "BMI (Body Mass Index)",
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          color: Colors.white,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      bmii,
-                                      style: TextStyle(
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    height: media.width * 0.4,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: TColor.primaryG),
+                      borderRadius: BorderRadius.circular(media.width * 0.075),
+                    ),
+                    child: Stack(
+                      children: [
+                        Image.asset(
+                          "images/banner_dots.png",
+                          height: media.width * 0.4,
+                          width: double.maxFinite,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "BMI (Body Mass Index)",
+                                    style: TextStyle(
+                                        fontSize: 17,
                                         color: Colors.white,
                                         fontFamily: "Poppins",
-                                      ),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    bmii,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Poppins",
                                     ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                      width: 120,
-                                      child: RoundButton(
-                                          title: "View More",
-                                          onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => ExerciseView()));
-                                          }),
-                                    )
-                                  ],
-                                ),
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: PieChart(
-                                    PieChartData(
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                    width: 120,
+                                    child: RoundButton(
+                                        title: "View More",
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ExerciseView()));
+                                        }),
+                                  ),
+                                ],
+                              ),
+                              AspectRatio(
+                                aspectRatio: 1,
+                                child: PieChart(
+                                  PieChartData(
                                       pieTouchData: PieTouchData(
-                                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                                        },
+                                        touchCallback: (FlTouchEvent event,
+                                            pieTouchResponse) {},
                                       ),
                                       startDegreeOffset: 270,
                                       borderData: FlBorderData(
@@ -193,47 +189,142 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                       sectionsSpace: 1,
                                       centerSpaceRadius: 0,
-                                      sections: showingSections()
-                                    ),
-                                  ),
+                                      sections: showingSections()),
                                 ),
-                              ],
-                            ),
-
-                          )
-                        ],
-                      )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: media.width * 0.15,
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                        color: TColor.primaryColor1.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      children: [
-                        Text("Today's Target", style: TextStyle(
-                          color: TColor.white,
-                          fontFamily: "Poppins"
-                        ),)
+                              ),
+                            ],
+                          ),
+                        )
                       ],
-                    ),
-                  )
-                ]
-
-              ),
+                    )),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: media.width * 0.15,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                      color: TColor.primaryColor1.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          "Today's Target",
+                          style: TextStyle(
+                              color: TColor.white,
+                              fontFamily: "Poppins",
+                              fontSize: 15),
+                        ),
+                      ),
+                      SizedBox(
+                          height: 40,
+                          width: 100,
+                          child: RoundButton(
+                              title: "Check",
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ExerciseView()));
+                              })),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: media.width * 0.25,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                      color: TColor.primaryColor1.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Calories",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ),
+                            Text(
+                              "760kcal",
+                              style: TextStyle(
+                                  color: TColor.primaryColor1,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          height: media.width * 0.15,
+                          width: media.width * 0.15,
+                          child: SimpleCircularProgressBar(
+                            valueNotifier: ValueNotifier(760),
+                            maxValue: 1000,
+                            backStrokeWidth: 0,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Workout",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: "Poppins"),
+                      ),
+                      ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ExerciseView()));
+                          },
+                          icon: Icon(
+                            Icons.navigate_next,
+                            color: Colors.white,
+                          ),
+                          label: Text("See more"))
+                    ],
+                  ),
+                )
+              ]),
             ),
           ),
         ),
       ),
     );
   }
+
   List<PieChartSectionData> showingSections() {
     return List.generate(
       2,
-          (i) {
+      (i) {
         var color0 = TColor.secondaryColor1;
         var color1 = TColor.white;
         var vl = 100 - bm;
@@ -241,18 +332,19 @@ class _HomeViewState extends State<HomeView> {
         switch (i) {
           case 0:
             return PieChartSectionData(
-              color: color0,
-              value: bm,
-              title: '',
-              radius: 65,
-              titlePositionPercentageOffset: 0.55,
-              badgeWidget: Text(bm.toString(), style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Poppins",
-                fontWeight: FontWeight.bold,
-                fontSize: 12
-              ),)
-            );
+                color: color0,
+                value: bm,
+                title: '',
+                radius: 65,
+                titlePositionPercentageOffset: 0.55,
+                badgeWidget: Text(
+                  bm.toString(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12),
+                ));
           case 1:
             return PieChartSectionData(
               color: color1,
