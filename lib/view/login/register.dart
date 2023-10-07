@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/common/color_extension.dart';
@@ -212,25 +214,31 @@ class _RegisterViewState extends State<RegisterView> {
     var auth = FirebaseAuth.instance.currentUser;
     var eml = auth?.email;
     var name = auth?.displayName;
+    var height = int.parse(_heightController.text) / 100;
+    var heightSq = pow(height, 2);
+    var we = int.parse(_weightController.text);
+    var bmi = (we / heightSq).toStringAsFixed(2);
+
 
     if (_formKey.currentState!.validate()) {
       setState(() {
-        _isCompleted = true;
-      });
-      final users = <String, dynamic>{
-        "email": eml,
-        "name": name,
-        "age": _dateOfBirthController.text,
-        "height": _heightController.text,
-        "weight": _weightController.text,
-        "gender": _genderController.text
+    _isCompleted = true;
+    });
+    final users = <String, dynamic>{
+    "email": eml,
+    "name": name,
+    "age": _dateOfBirthController.text,
+      "height": _heightController.text,
+      "weight": _weightController.text,
+      "gender": _genderController.text,
+      "bmi":bmi
       };
 
       try {
-        db.collection("users").add(users).then((DocumentReference doc) =>
-            print('DocumentSnapshot added with ID: ${doc.id}'));
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => OnlineHomePageView()));
+        db.collection("users").doc("${name}").set(users)
+          ..onError((e, _) => print("Error writing document: $e"));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => OnlineHomePageView()));
       } on FirebaseException catch (e) {
         Fluttertoast.showToast(msg: "Error: ${e.message}");
       }

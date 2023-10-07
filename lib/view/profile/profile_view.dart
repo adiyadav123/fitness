@@ -29,7 +29,7 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Fluttertoast.showToast(msg: auth.currentUser.toString());
+                    Fluttertoast.showToast(msg: "Signed out");
                     auth.signOut();
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => SignUpView()));

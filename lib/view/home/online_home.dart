@@ -39,7 +39,7 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                   onPressed: () {
                     if (_isHomeActive == true) {
                       setState(() {
-                        currentTab = const HomeView();
+                        currentTab = HomeView();
                         _isHomeActive = false;
                         _isExerciseActive = true;
                         _isProfileActive = true;
@@ -62,7 +62,7 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                   onPressed: () {
                     if (_isExerciseActive == true) {
                       setState(() {
-                        currentTab = const ExerciseView();
+                        currentTab =  ExerciseView();
                         _isExerciseActive = false;
                         _isHomeActive = true;
                         _isProfileActive = true;
@@ -85,7 +85,7 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                     onPressed: () {
                       if (_isProfileActive == true) {
                         setState(() {
-                          currentTab = const ProfileView();
+                          currentTab =  ProfileView();
                           _isProfileActive = false;
                           _isExerciseActive = true;
                           _isHomeActive = true;
