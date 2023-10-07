@@ -33,28 +33,34 @@ class _HomeViewState extends State<HomeView> {
 
     if (snapshot.exists) {
       // Data exists, you can access it using snapshot.data()
+      if (!mounted) return;
       setState(() {
         bm = double.parse(snapshot['bmi']);
       });
       if (bm < 16) {
+        if (!mounted) return;
         setState(() {
           bmii = "You are thin.";
         });
       } else if (bm > 16 && bm < 25) {
+        if (!mounted) return;
         setState(() {
           bmii = 'You are healthy.';
         });
       } else if (bm > 25 && bm < 30) {
+        if (!mounted) return;
         setState(() {
           bmii = "You are fat.";
         });
       } else if (bm > 30) {
+        if (!mounted) return;
         setState(() {
           bmii = "You are obese.";
         });
       }
     } else {
       // Document doesn't exist
+      if (!mounted) return;
       setState(() {
         bmii = 'Not calculated yet.';
       });
@@ -312,6 +318,9 @@ class _HomeViewState extends State<HomeView> {
                           label: Text("See more"))
                     ],
                   ),
+                ),
+                Column(
+                  
                 )
               ]),
             ),

@@ -15,6 +15,13 @@ class OnlineHomePageView extends StatefulWidget {
 }
 
 class _OnlineHomePageViewState extends State<OnlineHomePageView> {
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   var auth = FirebaseAuth.instance;
   bool _isHomeActive = true;
   bool _isExerciseActive = true;
@@ -38,14 +45,24 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                 IconButton(
                   onPressed: () {
                     if (_isHomeActive == true) {
-                      setState(() {
-                        currentTab = HomeView();
-                        _isHomeActive = false;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          currentTab = HomeView();
+                          _isHomeActive = false;
+                          _isExerciseActive = true;
+                          _isProfileActive = true;
+                        });
+                      } else {
+                        return;
+                      }
                     } else {
-                      setState(() {
-                        _isHomeActive = true;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          _isHomeActive = true;
+                        });
+                      } else {
+                        return;
+                      }
                     }
                   },
                   icon: Image.asset(
@@ -59,14 +76,24 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                 IconButton(
                   onPressed: () {
                     if (_isExerciseActive == true) {
-                      setState(() {
-                        currentTab = ExerciseView();
-                        _isExerciseActive = false;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          currentTab = ExerciseView();
+                          _isExerciseActive = false;
+                          _isHomeActive = true;
+                          _isProfileActive = true;
+                        });
+                      } else {
+                        return;
+                      }
                     } else {
-                      setState(() {
-                        _isExerciseActive = true;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          _isExerciseActive = true;
+                        });
+                      } else {
+                        return;
+                      }
                     }
                   },
                   icon: Image.asset(
@@ -80,14 +107,24 @@ class _OnlineHomePageViewState extends State<OnlineHomePageView> {
                   child: IconButton(
                     onPressed: () {
                       if (_isProfileActive == true) {
-                        setState(() {
-                          currentTab = ProfileView();
-                          _isProfileActive = false;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            currentTab = ProfileView();
+                            _isProfileActive = false;
+                            _isExerciseActive = true;
+                            _isHomeActive = true;
+                          });
+                        } else {
+                          return;
+                        }
                       } else {
-                        setState(() {
-                          _isProfileActive = true;
-                        });
+                        if (mounted) {
+                          setState(() {
+                            _isProfileActive = true;
+                          });
+                        } else {
+                          return;
+                        }
                       }
                     },
                     icon: Image.asset(
