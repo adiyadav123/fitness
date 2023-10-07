@@ -319,8 +319,30 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 Column(
-                  
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: media.width * 0.25,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(
+                            "on_1.png",
+                            height: 40,
+                            width: 40,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
                 )
               ]),
             ),
