@@ -331,15 +331,197 @@ class _HomeViewState extends State<HomeView> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            "on_1.png",
-                            height: 40,
-                            width: 40,
-                          )
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset("images/full_body_icon.png"),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Full body Workout",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "180 Calories Burn | 20 minutes",
+                                    style: TextStyle(
+                                        color: TColor.darkgray,
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ExerciseView()));
+                                      },
+                                      icon: Icon(
+                                        Icons.navigate_next,
+                                        color: TColor.secondaryColor1,
+                                      ))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: media.width * 0.25,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset("images/lowerbody_icon.png"),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Lowerbody Workout",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "200 Calories Burn | 30 minutes",
+                                    style: TextStyle(
+                                        color: TColor.darkgray,
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ExerciseView()));
+                                      },
+                                      icon: Icon(
+                                        Icons.navigate_next,
+                                        color: TColor.secondaryColor1,
+                                      ))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: media.width * 0.25,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset("images/ab_logo.png"),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Ab Workout",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "180 Calories Burn | 20 minutes",
+                                    style: TextStyle(
+                                        color: TColor.darkgray,
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ExerciseView()));
+                                      },
+                                      icon: Icon(
+                                        Icons.navigate_next,
+                                        color: TColor.secondaryColor1,
+                                      ))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],

@@ -101,7 +101,7 @@ class _RegisterViewState extends State<RegisterView> {
                           controller: _dateOfBirthController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Last name must not be empty!";
+                              return "Age must not be empty!";
                             } else {
                               return null;
                             }
@@ -111,7 +111,7 @@ class _RegisterViewState extends State<RegisterView> {
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 12),
                             focusedBorder: InputBorder.none,
-                            hintText: "dd/mm/yyyy",
+                            hintText: "Age in years",
                             prefixIcon: Icon(Icons.calendar_month_outlined),
                             prefixIconColor: TColor.darkgray,
                             hintStyle: TextStyle(
@@ -219,19 +219,18 @@ class _RegisterViewState extends State<RegisterView> {
     var we = int.parse(_weightController.text);
     var bmi = (we / heightSq).toStringAsFixed(2);
 
-
     if (_formKey.currentState!.validate()) {
       setState(() {
-    _isCompleted = true;
-    });
-    final users = <String, dynamic>{
-    "email": eml,
-    "name": name,
-    "age": _dateOfBirthController.text,
-      "height": _heightController.text,
-      "weight": _weightController.text,
-      "gender": _genderController.text,
-      "bmi":bmi
+        _isCompleted = true;
+      });
+      final users = <String, dynamic>{
+        "email": eml,
+        "name": name,
+        "age": _dateOfBirthController.text,
+        "height": _heightController.text,
+        "weight": _weightController.text,
+        "gender": _genderController.text,
+        "bmi": bmi
       };
 
       try {

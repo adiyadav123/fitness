@@ -23,21 +23,16 @@ class _ProfileViewState extends State<ProfileView> {
           child: Center(
             child: Column(
               children: [
-                Text(
-                  "Profile Page",
-                  style: TextStyle(color: Colors.white),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Fluttertoast.showToast(msg: "Signed out");
-                    auth.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUpView()));
-                  },
-                  child: Text(
-                    "Logout",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Image.asset("images/before_nav.png"),
+                    )
+                  ],
                 )
               ],
             ),
