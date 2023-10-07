@@ -23,16 +23,31 @@ class _ProfileViewState extends State<ProfileView> {
           child: Center(
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Image.asset("images/before_nav.png"),
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Image.asset("images/before_nav.png"),
+                      ),
+                      Text(
+                        "Profile",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Image.asset("images/about_us.png"),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
