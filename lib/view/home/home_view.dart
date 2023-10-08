@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/common/color_extension.dart';
 import 'package:fit/common_widget/round_button.dart';
 import 'package:fit/view/exercise/exercise_view.dart';
+import 'package:fit/view/exercise/jumping_jack_view.dart';
+import 'package:fit/view/exercise/planks.dart';
+import 'package:fit/view/exercise/squats.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
@@ -16,6 +19,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   String bmii = "Loading...";
+  var cal = 200.1;
   var bm = 10.0; // Initial text while loading data
 
   @override
@@ -28,43 +32,50 @@ class _HomeViewState extends State<HomeView> {
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser?.displayName;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final DocumentSnapshot snapshot =
-        await firestore.collection('users').doc(user).get();
+    // final DocumentSnapshot snapshot =
+    //     await firestore.collection('users').doc(user).get();
+    var db = FirebaseFirestore.instance;
+    final docRef = db.collection("users").doc(user);
+    docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        var calorie = data['calories'].toString();
+        if (!mounted) return;
+        setState(() {
+          bm = double.parse(data['bmi']);
+          if (cal == null) {
+            return;
+          } else {
+            cal = double.parse(calorie);
+          }
+        });
+        if (bm < 16) {
+          if (!mounted) return;
+          setState(() {
+            bmii = "You are thin.";
+          });
+        } else if (bm > 16 && bm < 25) {
+          if (!mounted) return;
+          setState(() {
+            bmii = 'You are healthy.';
+          });
+        } else if (bm > 25 && bm < 30) {
+          if (!mounted) return;
+          setState(() {
+            bmii = "You are fat.";
+          });
+        } else if (bm > 30) {
+          if (!mounted) return;
+          setState(() {
+            bmii = "You are obese.";
+          });
+        }
+        // ...
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
 
-    if (snapshot.exists) {
-      // Data exists, you can access it using snapshot.data()
-      if (!mounted) return;
-      setState(() {
-        bm = double.parse(snapshot['bmi']);
-      });
-      if (bm < 16) {
-        if (!mounted) return;
-        setState(() {
-          bmii = "You are thin.";
-        });
-      } else if (bm > 16 && bm < 25) {
-        if (!mounted) return;
-        setState(() {
-          bmii = 'You are healthy.';
-        });
-      } else if (bm > 25 && bm < 30) {
-        if (!mounted) return;
-        setState(() {
-          bmii = "You are fat.";
-        });
-      } else if (bm > 30) {
-        if (!mounted) return;
-        setState(() {
-          bmii = "You are obese.";
-        });
-      }
-    } else {
-      // Document doesn't exist
-      if (!mounted) return;
-      setState(() {
-        bmii = 'Not calculated yet.';
-      });
-    }
+    // Data exists, you can access it using snapshot.data()
   }
 
   @override
@@ -264,7 +275,7 @@ class _HomeViewState extends State<HomeView> {
                                   fontSize: 18),
                             ),
                             Text(
-                              "760kcal",
+                              "$cal kcal",
                               style: TextStyle(
                                   color: TColor.primaryColor1,
                                   fontFamily: "Poppins",
@@ -280,8 +291,8 @@ class _HomeViewState extends State<HomeView> {
                           height: media.width * 0.15,
                           width: media.width * 0.15,
                           child: SimpleCircularProgressBar(
-                            valueNotifier: ValueNotifier(760),
-                            maxValue: 1000,
+                            valueNotifier: ValueNotifier(cal),
+                            maxValue: 1000.0,
                             backStrokeWidth: 0,
                           ),
                         ),
@@ -344,7 +355,7 @@ class _HomeViewState extends State<HomeView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Full body Workout",
+                                    "Jumping Jack",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontFamily: "Poppins",
@@ -373,7 +384,7 @@ class _HomeViewState extends State<HomeView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ExerciseView()));
+                                                    JumpingJackView()));
                                       },
                                       icon: Icon(
                                         Icons.navigate_next,
@@ -413,7 +424,7 @@ class _HomeViewState extends State<HomeView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Lowerbody Workout",
+                                    "Squats",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontFamily: "Poppins",
@@ -442,7 +453,7 @@ class _HomeViewState extends State<HomeView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ExerciseView()));
+                                                    SquatsView()));
                                       },
                                       icon: Icon(
                                         Icons.navigate_next,
@@ -482,7 +493,7 @@ class _HomeViewState extends State<HomeView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Ab Workout",
+                                    "Planks",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontFamily: "Poppins",
@@ -511,7 +522,7 @@ class _HomeViewState extends State<HomeView> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ExerciseView()));
+                                                    PlanksView()));
                                       },
                                       icon: Icon(
                                         Icons.navigate_next,

@@ -17,15 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,39 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCs8UtKvqAAG3LCZF9FtyJoMtCJiPHT2lE',
-    appId: '1:656194875447:web:eb3df41aed597468f14fb2',
-    messagingSenderId: '656194875447',
-    projectId: 'fitnessx-a352c',
-    authDomain: 'fitnessx-a352c.firebaseapp.com',
-    storageBucket: 'fitnessx-a352c.appspot.com',
-    measurementId: 'G-L5Y3W33X5H',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDgw5053fW6WKnKRnam-gVh_f2ZJBer-iw',
     appId: '1:656194875447:android:e765e1d0847061c0f14fb2',
     messagingSenderId: '656194875447',
     projectId: 'fitnessx-a352c',
     storageBucket: 'fitnessx-a352c.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDEAlvQa9euC1eVj_ftXkg6N_-7K6b5b5Q',
-    appId: '1:656194875447:ios:807331b02b439b35f14fb2',
-    messagingSenderId: '656194875447',
-    projectId: 'fitnessx-a352c',
-    storageBucket: 'fitnessx-a352c.appspot.com',
-    iosBundleId: 'com.example.fit',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDEAlvQa9euC1eVj_ftXkg6N_-7K6b5b5Q',
-    appId: '1:656194875447:ios:b9364b77e0a8a11df14fb2',
-    messagingSenderId: '656194875447',
-    projectId: 'fitnessx-a352c',
-    storageBucket: 'fitnessx-a352c.appspot.com',
-    iosBundleId: 'com.example.fit.RunnerTests',
   );
 }

@@ -5,6 +5,7 @@ import 'package:fit/common_widget/round_button.dart';
 import 'package:fit/view/home/home_view.dart';
 import 'package:fit/view/home/online_home.dart';
 import 'package:fit/view/login/sign_up_view.dart';
+import 'package:fit/view/profile/about_us.dart';
 import 'package:fit/view/profile/personal_data.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -236,11 +237,184 @@ class _ProfileViewState extends State<ProfileView> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                    height: media.width * 0.7,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Account",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Transform.scale(
+                                  scale: 1.3,
+                                  child: Image.asset(
+                                    "images/blue_user.png",
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PersonalData()));
+                                  },
+                                  child: Text("Personal Data",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Poppins",
+                                          fontSize: 16)),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
+                                child: IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PersonalData()));
+                                    },
+                                    icon: Icon(Icons.navigate_next)),
+                              )
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Transform.scale(
+                                  scale: 1.3,
+                                  child: Image.asset(
+                                    "images/blue_user.png",
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AboutUs()));
+                                  },
+                                  child: Text("About Us",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Poppins",
+                                          fontSize: 16)),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
+                                child: IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const AboutUs()));
+                                    },
+                                    icon: Icon(Icons.navigate_next)),
+                              )
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Transform.scale(
+                                  scale: 1.3,
+                                  child: Image.asset(
+                                    "images/blue_user.png",
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SignUpView()));
+                                  },
+                                  child: Text("Logout",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Poppins",
+                                          fontSize: 16)),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
+                                child: IconButton(
+                                    onPressed: () {
+                                      Fluttertoast.showToast(msg: "Logged out");
+                                      _logout();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SignUpView()));
+                                    },
+                                    icon: Icon(Icons.navigate_next)),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  _logout() async {
+    var auth = FirebaseAuth.instance;
+    await auth.signOut();
   }
 }
