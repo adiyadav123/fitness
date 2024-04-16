@@ -35,6 +35,7 @@ class _ProfileViewState extends State<ProfileView> {
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser?.displayName;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference ref = firestore.collection('users').doc(user);
     final DocumentSnapshot snapshot =
         await firestore.collection('users').doc(user).get();
 
@@ -100,7 +101,9 @@ class _ProfileViewState extends State<ProfileView> {
                             fontSize: 20),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showAboutDialog(context: context);
+                        },
                         icon: Image.asset("images/about_us.png"),
                       ),
                     ],
@@ -151,87 +154,218 @@ class _ProfileViewState extends State<ProfileView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      height: 80,
-                      width: 90,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              weight,
-                              style: TextStyle(
-                                  color: TColor.primaryColor1,
-                                  fontFamily: "Poppins",
-                                  fontSize: 17),
-                            ),
-                            Text(
-                              "Weight",
-                              style: TextStyle(
-                                  color: TColor.darkgray,
-                                  fontFamily: "Poppins",
-                                  fontSize: 17),
-                            )
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        showAdaptiveDialog(
+                          context: context,
+                          builder: (context) {
+                            final textController = TextEditingController(); // To manage user input
+
+                            return AlertDialog(
+                              title: const Text("Weight"),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min, // Restricts dialog size
+                                children: [
+                                  const Text("Change your weight"),
+                                  TextField(
+                                    controller: textController, // Assign controller to the field
+                                    autofocus: true, // Sets focus on the field automatically
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context); // Close dialog
+                                  },
+                                  child: const Text("Cancel"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    final userInput = textController.text; // Get entered text
+                                    // Process or handle user input here (optional)
+                                    // change your weight
+                                    setState(() {
+                                      if(userInput.isEmpty){
+                                        weight = "60";
+                                        return;
+                                      }
+                                      weight = userInput;
+                                      _changeWeight();
+                                    });
+                                    Navigator.pop(context, userInput); // Pass input on dismiss
+                                  },
+                                  child: const Text("OK"),
+                                ),
+
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: 80,
+                        width: 90,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                weight,
+                                style: TextStyle(
+                                    color: TColor.primaryColor1,
+                                    fontFamily: "Poppins",
+                                    fontSize: 17),
+                              ),
+                              Text(
+                                "Weight",
+                                style: TextStyle(
+                                    color: TColor.darkgray,
+                                    fontFamily: "Poppins",
+                                    fontSize: 17),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      height: 80,
-                      width: 90,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              height,
-                              style: TextStyle(
-                                  color: TColor.primaryColor1,
-                                  fontFamily: "Poppins",
-                                  fontSize: 17),
+                    GestureDetector(
+                      onTap: (){
+                        showAdaptiveDialog(context: context, builder: (context){
+                          final heightController = TextEditingController();
+                          return AlertDialog(
+                            title: Text("Height"),
+                            content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text("Change your height"),
+                                TextField(
+                                  controller: heightController,
+                                  autofocus: true,
+                                )
+                              ]
                             ),
-                            Text(
-                              "Height",
-                              style: TextStyle(
-                                  color: TColor.darkgray,
-                                  fontFamily: "Poppins",
-                                  fontSize: 17),
-                            )
-                          ],
+                            actions: [
+                              TextButton(
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Cancel")
+                              ),
+                              TextButton(onPressed: (){
+                                final userInput = heightController.text;
+                                setState(() {
+                                  if(userInput.isEmpty){
+                                    height = "172";
+                                    return;
+                                  }
+                                  height = userInput;
+                                  _changeHeight();
+                                });
+                                Navigator.pop(context, userInput);
+                              }, child: Text("Ok"))
+                            ],
+                          );
+                        });
+                      },
+                      child: Container(
+                        height: 80,
+                        width: 90,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                height,
+                                style: TextStyle(
+                                    color: TColor.primaryColor1,
+                                    fontFamily: "Poppins",
+                                    fontSize: 17),
+                              ),
+                              Text(
+                                "Height",
+                                style: TextStyle(
+                                    color: TColor.darkgray,
+                                    fontFamily: "Poppins",
+                                    fontSize: 17),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      height: 80,
-                      width: 90,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              age,
-                              style: TextStyle(
-                                  color: TColor.primaryColor1,
-                                  fontFamily: "Poppins",
-                                  fontSize: 17),
+                    GestureDetector(
+                      onTap: (){
+                        showAdaptiveDialog(context: context, builder: (context){
+                          final ageController = TextEditingController();
+                          return AlertDialog(
+                            title: Text("Age"),
+                            content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text("Change your age"),
+                                  TextField(
+                                    controller: ageController,
+                                    autofocus: true,
+                                  )
+                                ]
                             ),
-                            Text(
-                              "Age",
-                              style: TextStyle(
-                                  color: TColor.darkgray,
-                                  fontFamily: "Poppins",
-                                  fontSize: 17),
-                            )
-                          ],
+                            actions: [
+                              TextButton(
+                                  onPressed: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Cancel")
+                              ),
+                              TextButton(onPressed: (){
+                                final userInput = ageController.text;
+                                setState(() {
+                                  if(userInput.isEmpty){
+                                    age = "14";
+                                    return;
+                                  }
+                                  age = userInput;
+                                  _changeAge();
+                                });
+                                Navigator.pop(context, userInput);
+
+                              }, child: Text("Ok"))
+                            ],
+                          );
+                        });
+                      },
+                      child: Container(
+                        height: 80,
+                        width: 90,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                age,
+                                style: TextStyle(
+                                    color: TColor.primaryColor1,
+                                    fontFamily: "Poppins",
+                                    fontSize: 17),
+                              ),
+                              Text(
+                                "Age",
+                                style: TextStyle(
+                                    color: TColor.darkgray,
+                                    fontFamily: "Poppins",
+                                    fontSize: 17),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     )
@@ -412,6 +546,55 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
+
+  _changeWeight() async {
+    var auth = FirebaseAuth.instance;
+    var user = auth.currentUser?.displayName;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference ref = firestore.collection('users').doc(user);
+    final DocumentSnapshot snapshot =
+    await firestore.collection('users').doc(user).get();
+    var bmi = (int.parse(weight) / (int.parse(height) * int.parse(height))) * 10000;
+    var trimmed_bmi = bmi.toStringAsFixed(2);
+    print(trimmed_bmi);
+    if (snapshot.exists) {
+      // Data exists, you can access it using snapshot.data()
+      if (!mounted) return;
+      ref.update({
+        'weight': weight,
+      });
+      ref.update({
+        'bmi': trimmed_bmi,
+      });
+    }
+  }
+
+  _changeHeight() async {
+    var auth = FirebaseAuth.instance;
+    var user = auth.currentUser?.displayName;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference ref = firestore.collection('users').doc(user);
+    var bmi = (int.parse(weight) / (int.parse(height) * int.parse(height))) * 10000;
+    var trimmed_bmi = bmi.toStringAsFixed(2);
+    ref.update({
+      'height': height,
+    });
+    ref.update({
+      'bmi': trimmed_bmi,
+    });
+  }
+
+  _changeAge() async {
+    var auth = FirebaseAuth.instance;
+    var user = auth.currentUser?.displayName;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference ref = firestore.collection('users').doc(user);
+    ref.update({
+      'age': age,
+    });
+  }
+
+
 
   _logout() async {
     var auth = FirebaseAuth.instance;

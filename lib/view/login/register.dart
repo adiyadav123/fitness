@@ -230,7 +230,8 @@ class _RegisterViewState extends State<RegisterView> {
         "height": _heightController.text,
         "weight": _weightController.text,
         "gender": _genderController.text,
-        "bmi": bmi
+        "bmi": bmi,
+        "calorie": "0"
       };
 
       try {

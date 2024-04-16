@@ -9,6 +9,7 @@ import 'package:fit/view/exercise/squats.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -18,9 +19,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  String bmii = "Loading...";
-  var cal = 200.1;
-  var bm = 10.0; // Initial text while loading data
+  String bmii = "You are normal.";
+  var cal = 0.0;
+  var bm = 20.0; // Initial text while loading data
 
   @override
   void initState() {
@@ -28,54 +29,48 @@ class _HomeViewState extends State<HomeView> {
     fetchData();
   }
 
+  bool isMidnight = DateTime.now().hour == 0;
+
+
   Future<void> fetchData() async {
     var auth = FirebaseAuth.instance;
-    var user = auth.currentUser?.displayName;
+    var user = auth.currentUser?.displayName ?? "Username";
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    // final DocumentSnapshot snapshot =
-    //     await firestore.collection('users').doc(user).get();
-    var db = FirebaseFirestore.instance;
-    final docRef = db.collection("users").doc(user);
-    docRef.get().then(
-      (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        var calorie = data['calories'].toString();
-        if (!mounted) return;
-        setState(() {
-          bm = double.parse(data['bmi']);
-          if (cal == null) {
-            return;
-          } else {
-            cal = double.parse(calorie);
-          }
-        });
-        if (bm < 16) {
-          if (!mounted) return;
-          setState(() {
-            bmii = "You are thin.";
-          });
-        } else if (bm > 16 && bm < 25) {
-          if (!mounted) return;
-          setState(() {
-            bmii = 'You are healthy.';
-          });
-        } else if (bm > 25 && bm < 30) {
-          if (!mounted) return;
-          setState(() {
-            bmii = "You are fat.";
-          });
-        } else if (bm > 30) {
-          if (!mounted) return;
-          setState(() {
-            bmii = "You are obese.";
-          });
-        }
-        // ...
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
+    DocumentReference ref = firestore.collection('users').doc(user);
+    final DocumentSnapshot snapshot = await firestore.collection('users').doc(user).get();
+    if (snapshot.exists) {
+      if(!mounted) return;
+      setState(() {
+        cal = double.parse(snapshot['calorie']);
+      });
 
-    // Data exists, you can access it using snapshot.data()
+      setState(() {
+        bm = double.parse(snapshot['bmi']);
+      });
+
+      if (bm < 18.5) {
+        setState(() {
+          bmii = "You are underweight.";
+        });
+      } else if (bm >= 18.5 && bm <= 24.9) {
+        setState(() {
+          bmii = "You are normal.";
+        });
+      } else if (bm >= 25 && bm <= 29.9) {
+        setState(() {
+          bmii = "You are overweight.";
+        });
+      } else {
+        setState(() {
+          bmii = "You are obese.";
+        });
+      }
+    }
+
+    if (isMidnight) {
+      ref.update({'calorie': '0'});
+    }
+
   }
 
   @override
@@ -291,8 +286,8 @@ class _HomeViewState extends State<HomeView> {
                           height: media.width * 0.15,
                           width: media.width * 0.15,
                           child: SimpleCircularProgressBar(
-                            valueNotifier: ValueNotifier(cal),
-                            maxValue: 1000.0,
+                            valueNotifier: ValueNotifier<double>(cal),
+                            maxValue: cal + 100.0,
                             backStrokeWidth: 0,
                           ),
                         ),
@@ -536,6 +531,75 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: media.width * 0.25,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset("images/ab_logo.png"),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Planks",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: "Poppins",
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "180 Calories Burn | 20 minutes",
+                                    style: TextStyle(
+                                        color: TColor.darkgray,
+                                        fontFamily: "Poppins",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PlanksView()));
+                                      },
+                                      icon: Icon(
+                                        Icons.navigate_next,
+                                        color: TColor.secondaryColor1,
+                                      ))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 )
               ]),
             ),
@@ -564,7 +628,7 @@ class _HomeViewState extends State<HomeView> {
                 badgeWidget: Text(
                   bm.toString(),
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
                       fontSize: 12),

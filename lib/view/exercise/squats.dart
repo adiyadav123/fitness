@@ -138,8 +138,8 @@ class _SquatsViewState extends State<SquatsView> {
     final DocumentSnapshot snapshot =
         await db.collection('users').doc(user).get();
 
-    var calorie = snapshot['calories'];
+    var calorie = int.parse(snapshot['calorie']);
 
-    db.collection('users').doc(user).update({"calories": calorie + 200});
+    db.collection('users').doc(user).update({"calorie": (calorie + 180).toString()});
   }
 }

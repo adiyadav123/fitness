@@ -107,7 +107,7 @@ class _PlanksViewState extends State<PlanksView> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  "You will need 20 minutes to complete it. After that press complete it button.",
+                  "You need 2 minutes to complete it. After that press complete it button.",
                   style: TextStyle(
                       color: TColor.darkgray,
                       fontFamily: "Poppins",
@@ -138,8 +138,8 @@ class _PlanksViewState extends State<PlanksView> {
     final DocumentSnapshot snapshot =
         await db.collection('users').doc(user).get();
 
-    var calorie = snapshot['calories'];
+    var calorie = int.parse(snapshot['calorie']);
 
-    db.collection('users').doc(user).update({"calories": calorie + 200});
+    db.collection('users').doc(user).update({"calorie": (calorie + 200).toString()});
   }
 }

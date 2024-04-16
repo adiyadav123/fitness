@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/common/color_extension.dart';
 import 'package:fit/common_widget/round_button.dart';
+import 'package:fit/view/home/home_view.dart';
 import 'package:fit/view/home/online_home.dart';
 import 'package:fit/view/profile/profile_view.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,9 @@ class JumpingJackView extends StatefulWidget {
 
 class _JumpingJackViewState extends State<JumpingJackView> {
   var cal = 0;
+  var time = 0;
+  var btn_text = "Start";
+  var _isBtnClicked = false;
 
   @override
   void initState() {
@@ -30,9 +36,9 @@ class _JumpingJackViewState extends State<JumpingJackView> {
     final DocumentSnapshot snapshot =
         await firestore.collection('users').doc(user).get();
 
-    if (snapshot['calories'] == null) {
+    if (snapshot['calorie'] == null) {
       firestore.collection('users').doc(user).set({
-        'calories': '1',
+        'calorie': '1',
       }, SetOptions(merge: true));
     }
   }
@@ -95,7 +101,7 @@ class _JumpingJackViewState extends State<JumpingJackView> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  "Easy | 180 calories",
+                  "Easy | 180 calories | 20 minutes",
                   style: TextStyle(
                       color: TColor.darkgray,
                       fontFamily: "Poppins",
@@ -138,12 +144,21 @@ class _JumpingJackViewState extends State<JumpingJackView> {
               ),
               SizedBox(height: 30),
               Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                  "Time: ${(time / 60).toStringAsFixed(2)} minutes",
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "Poppins", fontSize: 20),
+                ),
+              ),
+              SizedBox(height: 30),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: RoundButton(
-                    title: "Complete it",
+                    title: btn_text,
                     onPressed: () {
-                      Fluttertoast.showToast(msg: "Good Job");
-                      _calorie();
+                      Fluttertoast.showToast(msg: "Exercise Started");
+                      _startTimer();
                     }),
               )
             ],
@@ -153,15 +168,38 @@ class _JumpingJackViewState extends State<JumpingJackView> {
     );
   }
 
-  _calorie() async {
+  _startTimer() {
+    if (_isBtnClicked) {
+      setState(() {
+        btn_text = "Start";
+        _isBtnClicked = false;
+      });
+      _calorie(time);
+      time = 0;
+    } else {
+      setState(() {
+        btn_text = "Complete";
+        _isBtnClicked = true;
+      });
+      Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          time++;
+        });
+      });
+    }
+  }
+
+  _calorie(timee) async {
     var db = FirebaseFirestore.instance;
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser?.displayName;
     final DocumentSnapshot snapshot =
         await db.collection('users').doc(user).get();
+    var calorie = int.parse(snapshot['calorie']);
 
-    var calorie = snapshot['calories'];
-
-    db.collection('users').doc(user).update({"calories": calorie + 200});
+    db
+        .collection('users')
+        .doc(user)
+        .update({"calorie": (calorie + 180).toString()});
   }
 }
